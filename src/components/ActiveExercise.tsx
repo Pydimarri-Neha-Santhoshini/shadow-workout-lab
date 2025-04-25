@@ -1,4 +1,3 @@
-
 import { ArrowLeft, ArrowRight, Settings, ThumbsUp, Volume2 } from "lucide-react";
 import { useState } from "react";
 
@@ -58,9 +57,7 @@ const ActiveExercise = ({
           onClick={onComplete} 
           className="bg-workout-red text-white font-bold py-3 px-8 rounded-full text-lg w-full max-w-xs"
         >
-          <span className="flex items-center justify-center">
-            <Check width={20} height={20} className="mr-2" /> DONE
-          </span>
+          Done
         </button>
 
         <div className="flex justify-between w-full max-w-md mt-8">
@@ -86,22 +83,3 @@ const ActiveExercise = ({
 };
 
 export default ActiveExercise;
-
-function Check(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg 
-      xmlns="http://www.w3.org/2000/svg" 
-      width="24" 
-      height="24" 
-      viewBox="0 0 24 24" 
-      fill="none" 
-      stroke="currentColor" 
-      strokeWidth="2" 
-      strokeLinecap="round" 
-      strokeLinejoin="round"
-      {...props}
-    >
-      <polyline points="20 6 9 17 4 12"></polyline>
-    </svg>
-  );
-}

@@ -4,7 +4,6 @@ import { ArrowLeft } from 'lucide-react';
 import ActiveExercise from '../components/ActiveExercise';
 import { toast } from 'sonner';
 
-// Mock exercises data (same as in ExercisesList.tsx)
 const exercisesData = {
   'build-muscle': {
     1: [
@@ -68,6 +67,11 @@ const ActiveWorkout = () => {
   const currentExercise = exercises[currentExerciseIndex];
   
   const handleComplete = () => {
+    // Mark the current exercise as completed
+    if (currentExercise) {
+      exercises[currentExerciseIndex].completed = true;
+    }
+    
     toast.success('Exercise completed!');
     
     // If this is the last exercise, go back to exercises list
