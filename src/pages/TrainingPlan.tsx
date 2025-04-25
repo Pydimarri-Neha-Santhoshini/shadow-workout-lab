@@ -57,7 +57,7 @@ const TrainingPlan = () => {
       
       <div className="container mx-auto px-4 py-6">
         <div className="mb-6">
-          <Link to="/workouts/all" className="text-white flex items-center mb-4">
+          <Link to="/workouts" className="text-white flex items-center mb-4">
             <ArrowLeft size={20} className="mr-2" /> Back
           </Link>
           <h1 className="text-white text-2xl font-bold">{plan.title}</h1>
