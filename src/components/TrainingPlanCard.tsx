@@ -27,7 +27,7 @@ const TrainingPlanCard = ({ id, title, day, difficulty }: TrainingPlanCardProps)
         <p className="text-workout-lightGray mb-1">{title}</p>
         <h3 className="text-white text-2xl font-bold mb-3">DAY {day}</h3>
         <Link 
-          to={`/training/${id}/day/${day}`} 
+          to={`/training/${id}/day/${day}/exercises`} 
           className="mt-2 bg-workout-red text-white py-3 px-4 rounded-lg flex items-center justify-center"
         >
           START <ArrowRight size={18} className="ml-2" />
