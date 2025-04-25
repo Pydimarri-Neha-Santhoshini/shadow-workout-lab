@@ -26,7 +26,7 @@ const WorkoutCard = ({ title, image, duration, level, id }: WorkoutCardProps) =>
           </span>
         </div>
         <h3 className="text-white text-lg font-bold mb-3">{title}</h3>
-        <Link to={`/workout/${id}`} className="workout-button">
+        <Link to={`/training/${id}`} className="workout-button">
           Start <ArrowRight size={16} />
         </Link>
       </div>
