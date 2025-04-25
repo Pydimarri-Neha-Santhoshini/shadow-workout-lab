@@ -59,7 +59,7 @@ const ActiveExercise = ({
           className="bg-workout-red text-white font-bold py-3 px-8 rounded-full text-lg w-full max-w-xs"
         >
           <span className="flex items-center justify-center">
-            <Check size={20} className="mr-2" /> DONE
+            <Check width={20} height={20} className="mr-2" /> DONE
           </span>
         </button>
 

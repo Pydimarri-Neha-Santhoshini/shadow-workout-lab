@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Activity, Dumbbell, Flame, StretchHorizontal, Yoga } from 'lucide-react';
+import { Activity, Dumbbell, Flame, StretchHorizontal, Heart } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import WorkoutCard from '../components/WorkoutCard';
 import WorkoutCategory from '../components/WorkoutCategory';
@@ -35,7 +35,7 @@ const recommendedWorkouts = [
 const categories = [
   { id: 'strength', title: 'Strength', icon: <Dumbbell size={24} /> },
   { id: 'cardio', title: 'Cardio', icon: <Activity size={24} /> },
-  { id: 'yoga', title: 'Yoga', icon: <Yoga size={24} /> },
+  { id: 'yoga', title: 'Yoga', icon: <Heart size={24} /> },
   { id: 'hiit', title: 'HIIT', icon: <Flame size={24} /> },
   { id: 'pilates', title: 'Pilates', icon: <Activity size={24} /> },
   { id: 'stretching', title: 'Stretching', icon: <StretchHorizontal size={24} /> },
