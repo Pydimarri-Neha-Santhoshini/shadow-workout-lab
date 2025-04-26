@@ -1,10 +1,10 @@
-
-import { ArrowLeft } from 'lucide-react';
+import { useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import Navbar from '../components/Navbar';
-import ExerciseItem from '../components/ExerciseItem';
+import { ArrowLeft, Check } from 'lucide-react';
+import ActiveExercise from '../components/ActiveExercise';
+import { toast } from 'sonner';
 
-// Mock category exercises data
+// Reference to the same mock data from CategoryExercises.tsx
 const categoryExercises = {
   'strength': [
     {
@@ -156,62 +156,95 @@ const categoryExercises = {
   ],
 };
 
-const CategoryExercises = () => {
-  const { categoryId } = useParams<{ categoryId: string }>();
+const CategoryWorkout = () => {
+  const { categoryId, exerciseId } = useParams<{ categoryId: string; exerciseId: string }>();
   const navigate = useNavigate();
   
-  const exercises = categoryId ? categoryExercises[categoryId] || [] : [];
+  if (!categoryId) {
+    return <div>Category not found</div>;
+  }
   
-  const startWorkout = () => {
-    if (exercises.length > 0) {
-      navigate(`/workout/${categoryId}/${exercises[0].id}`);
+  const exercises = categoryExercises[categoryId] || [];
+  
+  // Find current exercise index
+  const currentExerciseIndex = exercises.findIndex(ex => ex.id === exerciseId);
+  const currentExercise = exercises[currentExerciseIndex];
+  
+  const handleComplete = () => {
+    // Mark the current exercise as completed
+    if (currentExercise) {
+      exercises[currentExerciseIndex].completed = true;
+    }
+    
+    toast.success('Exercise completed!');
+    
+    // If this is the last exercise, go back to exercises list
+    if (currentExerciseIndex === exercises.length - 1) {
+      navigate(`/category/${categoryId}/exercises`);
+    } else {
+      // Otherwise, go to the next exercise
+      navigate(`/workout/${categoryId}/${exercises[currentExerciseIndex + 1].id}`);
+    }
+  };
+  
+  const handlePrevious = () => {
+    if (currentExerciseIndex > 0) {
+      navigate(`/workout/${categoryId}/${exercises[currentExerciseIndex - 1].id}`);
+    }
+  };
+  
+  const handleNext = () => {
+    if (currentExerciseIndex < exercises.length - 1) {
+      navigate(`/workout/${categoryId}/${exercises[currentExerciseIndex + 1].id}`);
     }
   };
 
+  if (!currentExercise) {
+    return (
+      <div className="min-h-screen bg-black flex items-center justify-center">
+        <p className="text-white">Exercise not found</p>
+        <Link to={`/category/${categoryId}/exercises`} className="text-workout-red ml-2">
+          Go back to exercises
+        </Link>
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-screen bg-black">
-      <Navbar />
+    <div className="min-h-screen bg-black flex flex-col">
+      <div className="p-4">
+        <Link to={`/category/${categoryId}/exercises`} className="text-white">
+          <ArrowLeft size={20} />
+        </Link>
+      </div>
       
-      <div className="container mx-auto px-4 py-6">
-        <div className="mb-6">
-          <Link to="/workouts" className="text-white flex items-center mb-4">
-            <ArrowLeft size={20} className="mr-2" /> Back
-          </Link>
-          <h1 className="text-2xl font-bold text-white text-center mb-1">
-            {categoryId?.charAt(0).toUpperCase() + categoryId?.slice(1)} Workouts
-          </h1>
-          <p className="text-workout-red text-center">
-            {exercises.length} Exercises • {exercises.length * 2} min
-          </p>
-        </div>
-        
-        <div className="bg-black rounded-lg">
-          {exercises.map((exercise) => (
-            <ExerciseItem
-              key={exercise.id}
-              id={exercise.id}
-              name={exercise.name}
-              image={exercise.image}
-              tags={exercise.tags}
-              reps={exercise.reps}
-              completed={exercise.completed}
-            />
-          ))}
-        </div>
-        
-        {exercises.length > 0 && (
-          <div className="fixed bottom-0 left-0 w-full p-4 bg-black border-t border-workout-darkGray">
-            <button 
-              onClick={startWorkout}
-              className="w-full bg-workout-red text-white py-4 rounded-full font-bold"
-            >
-              Start Workout
-            </button>
+      <ActiveExercise
+        exercise={currentExercise}
+        onComplete={handleComplete}
+        onPrevious={handlePrevious}
+        onNext={handleNext}
+        isFirst={currentExerciseIndex === 0}
+        isLast={currentExerciseIndex === exercises.length - 1}
+      />
+      
+      <div className="fixed bottom-0 left-0 w-full p-4 bg-black border-t border-workout-darkGray">
+        <div className="flex justify-between items-center">
+          <div className="text-white">
+            {currentExerciseIndex + 1} / {exercises.length}
           </div>
-        )}
+          <div className="flex space-x-3">
+            {exercises.map((_, index) => (
+              <div 
+                key={index} 
+                className={`h-2 w-8 rounded-full ${index === currentExerciseIndex ? 'bg-workout-red' : 'bg-workout-darkGray'}`}
+              ></div>
+            ))}
+          </div>
+          <div className="w-10"></div>
+        </div>
       </div>
     </div>
   );
 };
 
-export default CategoryExercises;
+export default CategoryWorkout;

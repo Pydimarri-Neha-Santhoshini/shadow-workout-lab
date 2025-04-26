@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -11,6 +12,7 @@ import ExercisesList from "./pages/ExercisesList";
 import ActiveWorkout from "./pages/ActiveWorkout";
 import NotFound from "./pages/NotFound";
 import CategoryExercises from "./pages/CategoryExercises";
+import CategoryWorkout from "./pages/CategoryWorkout";
 
 const queryClient = new QueryClient();
 
@@ -28,6 +30,7 @@ const App = () => (
           <Route path="/training/:id/day/:day/exercises" element={<ExercisesList />} />
           <Route path="/training/:id/day/:day/workout/:exerciseId" element={<ActiveWorkout />} />
           <Route path="/category/:categoryId/exercises" element={<CategoryExercises />} />
+          <Route path="/workout/:categoryId/:exerciseId" element={<CategoryWorkout />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
