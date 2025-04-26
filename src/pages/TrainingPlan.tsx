@@ -1,4 +1,3 @@
-
 import { ArrowLeft } from 'lucide-react';
 import { Link, useParams } from 'react-router-dom';
 import Navbar from '../components/Navbar';
@@ -44,13 +43,44 @@ const trainingPlansData = {
   }
 };
 
-const TrainingPlan = () => {
-  const { id } = useParams<{ id: string }>();
+interface TrainingPlanProps {
+  id?: string;
+  title?: string;
+  day?: number;
+  difficulty?: number;
+}
+
+const TrainingPlan = ({ id, title, day, difficulty }: TrainingPlanProps = {}) => {
+  const params = useParams<{ id: string }>();
   
-  // Default to 'build-muscle' if id is undefined or not found
-  const planId = id && trainingPlansData[id] ? id : 'build-muscle';
+  // Use either the prop id or the URL param
+  const planId = id || (params?.id && trainingPlansData[params.id] ? params.id : 'build-muscle');
   const plan = trainingPlansData[planId];
 
+  // If rendered as a card (with props), show the card view
+  if (id && title && day && difficulty) {
+    return (
+      <div className="bg-black border border-workout-darkGray rounded-xl p-4 mb-4">
+        <div className="flex flex-col">
+          <div className="flex items-center mb-2">
+            {Array.from({ length: difficulty }).map((_, i) => (
+              <span key={i}>⚡</span>
+            ))}
+          </div>
+          <p className="text-workout-lightGray mb-1">{title}</p>
+          <h3 className="text-white text-2xl font-bold mb-3">DAY {day}</h3>
+          <Link 
+            to={`/training/${id}/day/${day}/exercises`} 
+            className="mt-2 bg-workout-red text-white py-3 px-4 rounded-lg flex items-center justify-center"
+          >
+            START
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  // Otherwise show the full training plan view
   return (
     <div className="min-h-screen bg-black">
       <Navbar />
@@ -74,7 +104,7 @@ const TrainingPlan = () => {
               exerciseCount={day.exercises}
               completed={day.completed}
               trainingId={planId}
-              active={index === 0} // Only the first day is active
+              active={index === 0}
             />
           ))}
         </div>

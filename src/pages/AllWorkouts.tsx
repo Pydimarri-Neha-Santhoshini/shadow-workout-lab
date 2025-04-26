@@ -1,8 +1,7 @@
-
 import { ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
-import TrainingPlanCard from '../components/TrainingPlanCard';
+import TrainingPlan from './TrainingPlan';
 
 // Mock training plans data
 const trainingPlans = [
@@ -59,7 +58,7 @@ const AllWorkouts = () => {
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {trainingPlans.map((plan) => (
-            <TrainingPlanCard
+            <TrainingPlan
               key={plan.id}
               id={plan.id}
               title={plan.title}
